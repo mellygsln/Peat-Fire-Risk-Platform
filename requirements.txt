@@ -6,3 +6,4 @@ tensorflow==2.16.1
 scikit-learn==1.6.1
 matplotlib==3.10.1
 xgboost==3.0.0
+chardet
