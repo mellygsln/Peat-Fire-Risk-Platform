@@ -141,12 +141,18 @@ if uploaded_file is not None:
 # ----------------------------
 # Predict Fire Risk
 # ----------------------------
+# ----------------------------
+# Predict Fire Risk
+# ----------------------------
 st.header("Predict Fire Risk")
 
 if 'predictions' not in locals() or not predictions:
     st.warning("Please make your LSTM prediction first in section 1.")
 else:
     st.subheader("Fire Risk Prediction based on LSTM prediction steps")
+
+    latitude = st.number_input("Input Latitude", format="%.6f")
+    longitude = st.number_input("Input Longitude", format="%.6f")
 
     model_choice = st.selectbox("Select classification model", ["XGBoost", "SVM", "Random Forest"])
 
@@ -162,24 +168,44 @@ else:
         n_steps = len(next(iter(predictions.values())))
         lstm_inputs = np.array([
             [predictions["Temperature (°C)"][i],
-             predictions["Water Table (meter)"][i],
-             predictions["Soil Moisture (%)"][i],
-             predictions["Rainfall (milimeter)"][i]]
+            predictions["Water Table (meter)"][i],
+            predictions["Soil Moisture (%)"][i],
+            predictions["Rainfall (milimeter)"][i],
+            latitude,
+            longitude]
             for i in range(n_steps)
         ])
 
+        # 💡 Perbaikan: konversi ke DataFrame dan pastikan urutan fiturnya benar
+        feature_order = ['Temperature (°C)', 'Water Table (meter)', 'Soil Moisture (%)', 'Rainfall (milimeter)', 'Latitude', 'Longitude']
+        rename_mapping = {
+            "Temperature(°C )": "Temperature (°C)",
+            "Water Table(m)": "Water Table (meter)",
+            "Soil Moisture(%)": "Soil Moisture (%)",
+            "Rainfall(mm)": "Rainfall (milimeter)"
+        }
+
+        # Rename kolom prediksi agar cocok dengan model training
+        for old, new in rename_mapping.items():
+            value = predictions.get(old)
+            if value is not None:
+                predictions[new] = value
+                del predictions[old]
+
+
+        lstm_inputs = pd.DataFrame(lstm_inputs, columns=feature_order)
+
+        # 🔍 Prediksi
         preds = model.predict(lstm_inputs)
         try:
             probas = model.predict_proba(lstm_inputs)[:, 1]
         except:
             probas = ["N/A"] * n_steps
 
-
-
-        # Konversi hasil prediksi ke label deskriptif
+        # Ubah ke label deskriptif
         risk_labels = ["Not Fire-Prone" if pred == 0 else "Fire-Prone" for pred in preds]
 
-        # Buat DataFrame hasil
+        # Buat hasil prediksi ke dalam tabel
         result_df = pd.DataFrame({
             "Step": [f"Step {i+1}" for i in range(n_steps)],
             "Fire Risk Prediction": risk_labels,
@@ -187,3 +213,4 @@ else:
         })
 
         st.dataframe(result_df)
+
