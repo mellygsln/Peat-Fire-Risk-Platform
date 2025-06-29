@@ -70,8 +70,23 @@ n_steps_out = st.number_input(
 )
 
 if uploaded_file is not None:
-    df = pd.read_csv(uploaded_file)
+    # Baca konten file untuk deteksi encoding
+    raw_data = uploaded_file.read()
+    result = chardet.detect(raw_data)
+    detected_encoding = result['encoding']
 
+    # Kembalikan pointer ke awal setelah dibaca mentah
+    uploaded_file.seek(0)
+
+    # Baca ulang dengan encoding yang terdeteksi
+    try:
+        df = pd.read_csv(uploaded_file, encoding=detected_encoding)
+        st.success(f"File successfully read with encoding: {detected_encoding}")
+    except Exception as e:
+        st.error(f"Failed to read CSV file. Detected encoding: {detected_encoding}. Error: {e}")
+        st.stop()
+
+if uploaded_file is not None:
     if df.shape[1] != 4:
         st.error("CSV must contain exactly 4 columns.")
     else:
