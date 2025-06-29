@@ -2,6 +2,7 @@ import streamlit as st
 import joblib
 import numpy as np
 import pandas as pd
+import chardet
 from tensorflow.keras.models import load_model
 from tensorflow.keras.losses import MeanSquaredError
 from sklearn.preprocessing import MinMaxScaler
