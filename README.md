@@ -2,6 +2,16 @@
   <img src="Logo PFRP.png" alt="PFRP Logo" width="200"/>
 </p>
 
+Peat Fire Risk Platform (PFRP) is a web-based system that interactively predicts peatland drought and fire risks using an LSTM model for forecasting environmental variables and classification algorithms such as XGBoost, SVM, and Random Forest to determine fire potential.
+
+## Features
+- **Upload CSV file with environmental data**
+- **LSTM-based time series prediction and the curve**
+- **Fire risk classification using XGBoost, SVM, Random Forest**
+
+## How It Works
+
+
 ## Demo Video
 
 Watch the demo here:  
