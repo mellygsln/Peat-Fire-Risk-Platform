@@ -13,7 +13,7 @@ Peat Fire Risk Platform (PFRP) is a web-based system that interactively predicts
 ## How It Works
 The workflow of PFRP is illustrated in the following flowchart.
 <p align="center">
-  <img src="Flowchart PFRP.png" alt="Flowchart PFRP" width="200"/>
+  <img src="Flowchart PFRP.png" alt="Flowchart PFRP" width="600"/>
 </p>
 
 ## Demo Video
