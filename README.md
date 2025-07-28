@@ -1,3 +1,4 @@
+![Build Status](https://img.shields.io/badge/build-passing-brightgreen) ![License](https://img.shields.io/badge/license-MIT-blue)
 <p align="center">
   <img src="Logo PFRP.png" alt="PFRP Logo" width="200"/>
 </p>
@@ -10,7 +11,10 @@ Peat Fire Risk Platform (PFRP) is a web-based system that interactively predicts
 - **Fire risk classification using XGBoost, SVM, Random Forest**
 
 ## How It Works
-
+The workflow of PFRP is illustrated in the following flowchart.
+<p align="center">
+  <img src="Flowchart PFRP.png" alt="Flowchart PFRP" width="200"/>
+</p>
 
 ## Demo Video
 
